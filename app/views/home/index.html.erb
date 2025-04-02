@@ -1,0 +1,86 @@
+<section class="hero-section text-center py-5 bg-light">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Welcome to Gato Catalog</h1>
+    <p class="lead">The definitive Wikipedia for gato breeds from around the world</p>
+    <%= link_to "Explore Gatos", gatos_path, class: "btn btn-primary btn-lg px-4" %>
+    <% if !user_signed_in? %>
+      <%= link_to "Join Our Community", new_user_registration_path, class: "btn btn-outline-secondary btn-lg px-4 ms-2" %>
+    <% end %>
+  </div>
+</section>
+
+<div class="container my-5">
+  <div class="row mb-5">
+    <div class="col-md-6">
+      <h2 class="fw-bold mb-3">About Gato Catalog</h2>
+      <p>Gato Catalog is a community-driven encyclopedia dedicated to documenting all gato breeds worldwide. Our mission is to create the most comprehensive and accurate resource for gato enthusiasts, researchers, and anyone curious about these fascinating felines.</p>
+      <p>Whether you're looking to identify a specific breed, learn about a gato's characteristics, or contribute your knowledge, Gato Catalog is your go-to resource.</p>
+      <% if !user_signed_in? %>
+        <p>Sign up to contribute your knowledge and help us build this resource!</p>
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <% if @random_gato&.image&.attached? %>
+        <%= image_tag @random_gato.image, class: "img-fluid rounded shadow-sm", style: "width: 100%; height: 400px; object-fit: cover;" %>
+      <% else %>
+        <img src="https://via.placeholder.com/600x400?text=Featured+Gato" alt="Featured gato" class="img-fluid rounded shadow-sm">
+      <% end %>
+    </div>
+  </div>
+
+  <h3 class="fw-bold text-center mb-4">Featured Gato Breeds</h3>
+  <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    <% if @featured_gatos.present? %>
+      <% @featured_gatos.each do |gato| %>
+        <div class="col">
+          <div class="card cat-card h-100">
+            <% if gato.image.attached? %>
+              <%= image_tag gato.image, class: "card-img-top cat-thumbnail", style: "height: 300px; object-fit: cover;" %>
+            <% else %>
+              <img src="https://via.placeholder.com/400x300?text=No+Image" class="card-img-top cat-thumbnail" alt="No image available">
+            <% end %>
+            <div class="card-body">
+              <h5 class="card-title"><%= gato.name %></h5>
+              <p class="card-text"><%= truncate(gato.description, length: 100) %></p>
+              <%= link_to "Learn more", gato, class: "btn btn-sm btn-outline-primary" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <% 3.times do |i| %>
+        <div class="col">
+          <div class="card cat-card h-100">
+            <img src="https://via.placeholder.com/400x300?text=Sample+Gato+<%= i+1 %>" class="card-img-top cat-thumbnail" alt="Sample gato">
+            <div class="card-body">
+              <h5 class="card-title">Sample Gato <%= i+1 %></h5>
+              <p class="card-text">This is a placeholder for when you add your first gatos to the catalog.</p>
+              <a href="#" class="btn btn-sm btn-outline-primary">Add a gato</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="row align-items-center mb-5">
+    <div class="col-md-7 order-md-2">
+      <h3 class="fw-bold mb-3">Join Our Community</h3>
+      <p>Gato Catalog is built by gato lovers like you. By joining our community, you can:</p>
+      <ul>
+        <li>Add new gato breeds to our growing database</li>
+        <li>Edit and improve existing entries</li>
+        <li>Share your knowledge with gato enthusiasts worldwide</li>
+        <li>Help create the most comprehensive gato breed resource on the web</li>
+      </ul>
+      <% if !user_signed_in? %>
+        <%= link_to "Sign Up Now", new_user_registration_path, class: "btn btn-primary" %>
+      <% else %>
+        <%= link_to "Add a New Gato", new_gato_path, class: "btn btn-primary" %>
+      <% end %>
+    </div>
+    <div class="col-md-5 order-md-1">
+      <img src="https://via.placeholder.com/500x350?text=Community" alt="Community" class="img-fluid rounded shadow-sm">
+    </div>
+  </div>
+</div>

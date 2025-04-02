@@ -1,30 +1,48 @@
-<p style="color: green"><%= notice %></p>
+<div class="container py-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+      <li class="breadcrumb-item"><%= link_to "Cats", gatos_path %></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= @gato.name %></li>
+    </ol>
+  </nav>
 
-<div>
-  <h1><%= @gato.name %></h1>
-  <h3>Breed: <%= @gato.breed %></h3>
+  <div class="row g-5">
+    <!-- Cat image on the left -->
+    <div class="col-md-5">
+      <% if @gato.image.attached? %>
+        <%= image_tag @gato.image, class: "cat-detail-image img-fluid rounded" %>
+      <% else %>
+        <img src="https://via.placeholder.com/600x800?text=No+Image" class="cat-detail-image img-fluid rounded" alt="No image available">
+      <% end %>
+      <div class="mt-3">
+        <p class="text-muted">
+          <small>Added by <%= @gato.user.email.split('@').first %></small>
+        </p>
+        <% if user_signed_in? && @gato.user == current_user %>
+          <div class="btn-group">
+            <%= link_to "Edit", edit_gato_path(@gato), class: "btn btn-sm btn-outline-secondary" %>
+            <%= link_to "Delete", gato_path(@gato), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this cat?" }, class: "btn btn-sm btn-outline-danger" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
 
-  <% if @gato.image.attached? %>
-    <%= image_tag @gato.image, style: "width: 100%; max-width: 500px;" %>
-  <% else %>
-    <p>No image available</p>
-  <% end %>
+    <!-- Cat description on the right -->
+    <div class="col-md-7">
+      <h1 class="display-5 fw-bold mb-3"><%= @gato.name %></h1>
+      <div class="mb-4">
+        <span class="badge bg-primary fs-6 px-3 py-2"><%= @gato.breed %></span>
+      </div>
 
-  <div>
-    <h3>Description:</h3>
-    <p><%= @gato.description %></p>
-  </div>
+      <h3 class="fw-bold mb-3">About this breed</h3>
+      <div class="cat-description mb-4">
+        <%= simple_format(@gato.description) %>
+      </div>
 
-  <p>
-    <strong>Added by:</strong>
-    <%= @gato.user.email %>
-  </p>
-
-  <div>
-    <% if user_signed_in? && @gato.user == current_user %>
-      <%= link_to "Edit this gato", edit_gato_path(@gato) %> |
-      <%= link_to "Delete this gato", gato_path(@gato), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-    <% end %>
-    <%= link_to "Back to gatos", gatos_path %>
+      <div class="mt-5">
+        <%= link_to "Back to all cats", gatos_path, class: "btn btn-outline-secondary" %>
+      </div>
+    </div>
   </div>
 </div>

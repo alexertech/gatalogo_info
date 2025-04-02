@@ -1,11 +1,10 @@
-<% content_for :title, "New gato" %>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h1 class="mb-4 fw-bold">Add a New Cat Breed</h1>
+      <p class="mb-4">Share your knowledge about a cat breed with our community. Please provide accurate information and a high-quality image.</p>
 
-<h1>New gato</h1>
-
-<%= render "form", gato: @gato %>
-
-<br>
-
-<div>
-  <%= link_to "Back to gatos", gatos_path %>
+      <%= render "form", gato: @gato %>
+    </div>
+  </div>
 </div>

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  get "home/index"
   resources :gatos
   devise_for :users
 
-  root "cats#index"
+  get 'home/index'
+  root "home#index"
 end

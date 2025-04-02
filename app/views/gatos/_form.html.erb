@@ -1,37 +1,43 @@
-<%= form_with(model: gato) do |form| %>
-  <% if gato.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(gato.errors.count, "error") %> prohibited this gato from being saved:</h2>
+<div class="card shadow-sm border-0">
+  <div class="card-body p-4">
+    <%= form_with(model: gato) do |form| %>
+      <% if gato.errors.any? %>
+        <div class="alert alert-danger">
+          <h4><%= pluralize(gato.errors.count, "error") %> prohibited this cat from being saved:</h4>
+          <ul>
+            <% gato.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-      <ul>
-        <% gato.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+      <div class="mb-3">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+      <div class="mb-3">
+        <%= form.label :breed, class: "form-label" %>
+        <%= form.text_field :breed, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :description, class: "form-label" %>
+        <%= form.text_area :description, rows: 8, class: "form-control" %>
+        <div class="form-text">Provide a comprehensive description of this cat breed including origin, physical characteristics, personality traits, and any special care requirements.</div>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :image, class: "form-label" %>
+        <%= form.file_field :image, class: "form-control", accept: "image/*" %>
+        <div class="form-text">Recommended image size: 800x1000 pixels. JPG or PNG format preferred. Maximum file size: 5MB.</div>
+      </div>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <%= link_to "Cancel", cats_path, class: "btn btn-outline-secondary me-md-2" %>
+        <%= form.submit class: "btn btn-primary" %>
+      </div>
+    <% end %>
   </div>
-
-  <div>
-    <%= form.label :breed, style: "display: block" %>
-    <%= form.text_field :breed %>
-  </div>
-
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.label :image, style: "display: block" %>
-    <%= form.file_field :image %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

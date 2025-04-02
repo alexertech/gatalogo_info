@@ -1,11 +1,11 @@
-class GatosController < AppligatoionController
+class GatosController < ApplicationController
   before_action :set_gato, only: %i[ show edit update destroy ]
-  before_action :authentigatoe_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   # GET /gatos
   def index
-    @gatos = Cat.all
+    @gatos = Gato.all
   end
 
   # GET /gatos/1
@@ -50,7 +50,7 @@ class GatosController < AppligatoionController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_gato
-    @gato = Cat.find(params[:id])
+    @gato = Gato.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
