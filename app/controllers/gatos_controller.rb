@@ -1,70 +1,65 @@
-class GatosController < ApplicationController
+class GatosController < AppligatoionController
   before_action :set_gato, only: %i[ show edit update destroy ]
+  before_action :authentigatoe_user!, except: [:index, :show]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
-  # GET /gatos or /gatos.json
+  # GET /gatos
   def index
-    @gatos = Gato.all
+    @gatos = Cat.all
   end
 
-  # GET /gatos/1 or /gatos/1.json
+  # GET /gatos/1
   def show
   end
 
   # GET /gatos/new
   def new
-    @gato = Gato.new
+    @gato = current_user.gatos.build
   end
 
   # GET /gatos/1/edit
   def edit
   end
 
-  # POST /gatos or /gatos.json
+  # POST /gatos
   def create
-    @gato = Gato.new(gato_params)
+    @gato = current_user.gatos.build(gato_params)
 
-    respond_to do |format|
-      if @gato.save
-        format.html { redirect_to @gato, notice: "Gato was successfully created." }
-        format.json { render :show, status: :created, location: @gato }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @gato.errors, status: :unprocessable_entity }
-      end
+    if @gato.save
+      redirect_to gato_url(@gato), notice: "Cat was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /gatos/1 or /gatos/1.json
+  # PATCH/PUT /gatos/1
   def update
-    respond_to do |format|
-      if @gato.update(gato_params)
-        format.html { redirect_to @gato, notice: "Gato was successfully updated." }
-        format.json { render :show, status: :ok, location: @gato }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @gato.errors, status: :unprocessable_entity }
-      end
+    if @gato.update(gato_params)
+      redirect_to gato_url(@gato), notice: "Cat was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /gatos/1 or /gatos/1.json
+  # DELETE /gatos/1
   def destroy
-    @gato.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to gatos_path, status: :see_other, notice: "Gato was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @gato.destroy
+    redirect_to gatos_url, notice: "Cat was successfully destroyed."
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_gato
-      @gato = Gato.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_gato
+    @gato = Cat.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def gato_params
-      params.require(:gato).permit(:name, :breed, :description, :image, :user_id)
-    end
+  # Only allow a list of trusted parameters through.
+  def gato_params
+    params.require(:gato).permit(:name, :breed, :description, :image)
+  end
+
+  def correct_user
+    @gato = current_user.gatos.find_by(id: params[:id])
+    redirect_to gatos_path, notice: "Not authorized to edit this gato" if @gato.nil?
+  end
 end
