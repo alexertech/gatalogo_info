@@ -12,7 +12,7 @@
       <div class="col">
         <div class="card cat-card h-100">
           <% if gato.image.attached? %>
-            <%= image_tag gato.image, class: "card-img-top cat-thumbnail" %>
+            <%= image_tag gato.image, class: "card-img-top cat-thumbnail", style: "height: 300px; object-fit: cover;"  %>
           <% else %>
             <img src="https://via.placeholder.com/400x300?text=No+Image" class="card-img-top cat-thumbnail" alt="No image available">
           <% end %>
