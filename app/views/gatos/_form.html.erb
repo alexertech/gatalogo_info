@@ -1,7 +1,7 @@
 <div class="card shadow-sm border-0">
   <div class="card-body p-4">
-    <%= form_with(model: gato) do |form| %>
-      <% if gato.errors.any? %>
+    <%= form_with(model: @gato) do |form| %>
+      <% if @gato.errors.any? %>
         <div class="alert alert-danger">
           <h4><%= pluralize(gato.errors.count, "error") %> prohibited this cat from being saved:</h4>
           <ul>
@@ -35,7 +35,7 @@
       </div>
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <%= link_to "Cancel", cats_path, class: "btn btn-outline-secondary me-md-2" %>
+        <%= link_to "Cancel", gatos_path, class: "btn btn-outline-secondary me-md-2" %>
         <%= form.submit class: "btn btn-primary" %>
       </div>
     <% end %>
