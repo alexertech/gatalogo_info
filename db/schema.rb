@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_09_163405) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_09_165143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "vector"
@@ -54,11 +54,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_163405) do
     t.index ["user_id"], name: "index_gatos_on_user_id"
   end
 
-  create_table "join_t_able_gatos_tags", force: :cascade do |t|
-    t.string "gatos"
-    t.string "tags"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "gatos_tags", id: false, force: :cascade do |t|
+    t.bigint "gato_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["gato_id", "tag_id"], name: "index_gatos_tags_on_gato_id_and_tag_id"
+    t.index ["tag_id", "gato_id"], name: "index_gatos_tags_on_tag_id_and_gato_id"
   end
 
   create_table "tags", force: :cascade do |t|

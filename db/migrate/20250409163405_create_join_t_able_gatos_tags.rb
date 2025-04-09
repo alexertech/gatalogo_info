@@ -1,10 +1,8 @@
 class CreateJoinTAbleGatosTags < ActiveRecord::Migration[7.2]
   def change
-    create_table :join_t_able_gatos_tags do |t|
-      t.string :gatos
-      t.string :tags
-
-      t.timestamps
+    create_join_table :gatos, :tags do |t|
+      t.index [:gato_id, :tag_id]
+      t.index [:tag_id, :gato_id]
     end
   end
 end
