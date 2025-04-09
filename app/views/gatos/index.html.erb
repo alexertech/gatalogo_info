@@ -1,27 +1,39 @@
 <div class="container py-5">
   <h1 class="mb-4 fw-bold">Cat Breed Catalog</h1>
-
   <% if user_signed_in? %>
     <div class="mb-4">
       <%= link_to "Add a New Cat Breed", new_gato_path, class: "btn btn-primary" %>
     </div>
   <% end %>
-
+  
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <% @gatos.each do |gato| %>
       <div class="col">
         <div class="card cat-card h-100">
           <% if gato.image.attached? %>
-            <%= image_tag gato.image, class: "card-img-top cat-thumbnail", style: "height: 300px; object-fit: cover;"  %>
+            <%= image_tag gato.image, class: "card-img-top cat-thumbnail", style: "height: 300px; object-fit: cover;" %>
           <% else %>
             <img src="https://via.placeholder.com/400x300?text=No+Image" class="card-img-top cat-thumbnail" alt="No image available">
           <% end %>
+          
           <div class="card-body">
             <h5 class="card-title"><%= gato.name %></h5>
             <h6 class="card-subtitle mb-2 text-muted"><%= gato.breed %></h6>
+            
+            <!-- Tags section -->
+            <% if gato.tags.any? %>
+              <div class="mb-3">
+                <% gato.tags.each do |tag| %>
+                  <% tag_class = tag_color_class(tag.name) %>
+                  <span class="badge <%= tag_class %> me-1 mb-1"><%= tag.name %></span>
+                <% end %>
+              </div>
+            <% end %>
+            
             <p class="card-text"><%= truncate(gato.description, length: 100) %></p>
             <%= link_to "Learn more", gato, class: "btn btn-sm btn-outline-primary" %>
           </div>
+          
           <div class="card-footer bg-transparent border-top-0">
             <small class="text-muted">Added by <%= gato.user.email.split('@').first %></small>
           </div>
