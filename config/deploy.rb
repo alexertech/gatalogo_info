@@ -3,7 +3,7 @@
 set :application, 'gatalogo_info'
 set :repo_url, 'git@github.com:alexertech/gatalogo_info.git'
 set :deploy_to, '/home/alex/gatalogo_info'
-set :branch, fetch(:branch, 'main')
+set :branch, 'main'
 
 set :rbenv_ruby, File.read('.ruby-version').strip
 set :rbenv_path, '$HOME/.rbenv/'
