@@ -3,7 +3,7 @@ namespace :deploy do
   task :set_default_node_version do
     on roles(:app) do
       within release_path do
-        execute("cd #{release_path} && nvm use && nvm alias default #{fetch(:nvm_node)}")
+        execute("cd #{release_path} && source ~/.nvm/nvm.sh && nvm use && nvm alias default #{fetch(:nvm_node)} && corepack enable")
       end
     end
   end

@@ -20,7 +20,24 @@ set :nvm_map_bins, %w[node npm yarn]
 
 before 'deploy:assets:precompile', 'deploy:set_default_node_version'
 
+# Override the assets:precompile task
+Rake::Task['deploy:assets:precompile'].clear_actions
+
+# Override the assets:precompile task
 namespace :deploy do
+  namespace :assets do
+    desc 'Precompile assets with NVM paths properly set'
+    task :precompile do
+      on roles(:app) do
+        within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute("cd #{release_path} && source ~/.nvm/nvm.sh && corepack enable && yarn install && $HOME/.rbenv//bin/rbenv exec bundle exec rake assets:precompile")
+          end
+        end
+      end
+    end
+  end
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do

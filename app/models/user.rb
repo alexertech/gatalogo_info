@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules
-  devise :database_authenticatable, :registerable,
+  # Temporarily disabled :registerable to prevent new sign-ups
+  devise :database_authenticatable, 
          :recoverable, :rememberable, :validatable
 
   has_many :gatos, dependent: :destroy
