@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 set :application, 'gatalogo_info'
-set :repo_url, 'git@github.com:alexertech/gatalogo.info.git'
+set :repo_url, 'git@github.com:alexertech/gatalogo_info.git'
 set :deploy_to, '/home/alex/gatalogo_info'
 
 set :rbenv_ruby, File.read('.ruby-version').strip
