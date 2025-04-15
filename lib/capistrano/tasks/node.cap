@@ -1,0 +1,10 @@
+namespace :deploy do
+  desc "Run rake set_default_node_version"
+  task :set_default_node_version do
+    on roles(:app) do
+      within release_path do
+        execute("cd #{release_path} && nvm use && nvm alias default #{fetch(:nvm_node)}")
+      end
+    end
+  end
+end

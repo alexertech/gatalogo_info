@@ -34,14 +34,16 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-gem 'bcrypt_pbkdf', '~> 1.1', '>= 1.1.1'
-gem 'capistrano', '~> 3.19', '>= 3.19.1'
-gem 'capistrano-bundler', '~> 2.1'
-gem 'capistrano-rails', '~> 1.6', '>= 1.6.3'
-gem 'capistrano-rails-console', '~> 2.3'
-gem 'capistrano-rbenv', '~> 2.2'
-gem 'ed25519', '~> 1.3'
-gem 'net-ssh', '~> 7.2', '>= 7.2.3'
+gem "bcrypt_pbkdf", "~> 1.1", ">= 1.1.1"
+gem "capistrano", "~> 3.19", ">= 3.19.1"
+gem "capistrano-bundler", "~> 2.1"
+gem "capistrano-rails", "~> 1.6", ">= 1.6.3"
+gem "capistrano-rails-console", "~> 2.3"
+gem "capistrano-rbenv", "~> 2.2"
+gem "capistrano-nvm", require: false
+gem "capistrano-nvm-install", require: false
+gem "ed25519", "~> 1.3"
+gem "net-ssh", "~> 7.2", ">= 7.2.3"
 
 group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
@@ -49,11 +51,11 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  
+
   # RSpec for Rails testing
-  gem 'rspec-rails', '~> 6.1.0'
-  gem 'factory_bot_rails'
-  gem 'faker'
+  gem "rspec-rails", "~> 6.1.0"
+  gem "factory_bot_rails"
+  gem "faker"
 end
 
 group :development do
