@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="<%= I18n.locale %>" data-bs-theme="light">
 <head>
-  <title>Gato Catalog - The Wikipedia for Gatos</title>
+  <title><%= t('.title', default: 'Gatalogo - Your cat catalog') %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -23,31 +23,31 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
         <li class="nav-item">
-          <%= link_to "Home", root_path, class: "nav-link" %>
+          <%= link_to t('shared.navbar.home'), root_path, class: "nav-link" %>
         </li>
         <li class="nav-item">
-          <%= link_to "Gatos", gatos_path, class: "nav-link" %>
+          <%= link_to t('shared.navbar.cats'), gatos_path, class: "nav-link" %>
         </li>
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to "Add New Gato", new_gato_path, class: "nav-link" %>
+            <%= link_to t('gatos.index.new_cat'), new_gato_path, class: "nav-link" %>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
               <i class="fas fa-user-circle me-1"></i><%= current_user.email.split('@').first %>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %></li>
+              <li><%= link_to t('devise.registrations.edit.title', resource: User.model_name.human), edit_user_registration_path, class: "dropdown-item" %></li>
               <li><hr class="dropdown-divider"></li>
-              <li><%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %></li>
+              <li><%= link_to t('shared.navbar.logout'), destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %></li>
             </ul>
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+            <%= link_to t('shared.navbar.login'), new_user_session_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <% # link_to "Sign Up", new_user_registration_path, class: "btn btn-outline-primary ms-2" %>
+            <% # link_to t('shared.navbar.register'), new_user_registration_path, class: "btn btn-outline-primary ms-2" %>
           </li>
         <% end %>
         <li class="nav-item ms-3 d-flex align-items-center">
@@ -77,24 +77,31 @@
   </div>
 <% end %>
 
+<div class="language-selector position-fixed" style="top: 100px; right: 20px; z-index: 1000;">
+  <div class="btn-group">
+    <%= link_to "EN", { locale: :en }, class: "btn btn-sm #{I18n.locale == :en ? 'btn-primary' : 'btn-outline-primary'}" %>
+    <%= link_to "ES", { locale: :es }, class: "btn btn-sm #{I18n.locale == :es ? 'btn-primary' : 'btn-outline-primary'}" %>
+  </div>
+</div>
+
 <%= yield %>
 
 <footer class="footer text-center text-lg-start">
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <h5 class="fw-bold mb-3">Gato Catalog</h5>
-        <p>The definitive Wikipedia for gatos. Learn about different gato breeds, their characteristics, and more.</p>
+        <h5 class="fw-bold mb-3"><%= t('.footer_title', default: 'Gato Catalog') %></h5>
+        <p><%= t('.footer_description', default: 'The definitive Wikipedia for gatos. Learn about different gato breeds, their characteristics, and more.') %></p>
       </div>
       <div class="col-md-3">
-        <h5 class="fw-bold mb-3">Links</h5>
+        <h5 class="fw-bold mb-3"><%= t('.links_title', default: 'Links') %></h5>
         <ul class="list-unstyled">
-          <li><%= link_to "Home", root_path, class: "text-decoration-none" %></li>
-          <li><%= link_to "Gatos", gatos_path, class: "text-decoration-none" %></li>
+          <li><%= link_to t('shared.navbar.home'), root_path, class: "text-decoration-none" %></li>
+          <li><%= link_to t('shared.navbar.cats'), gatos_path, class: "text-decoration-none" %></li>
         </ul>
       </div>
       <div class="col-md-3">
-        <h5 class="fw-bold mb-3">Connect</h5>
+        <h5 class="fw-bold mb-3"><%= t('.connect_title', default: 'Connect') %></h5>
         <div class="social-icons">
           <a href="#" class="text-decoration-none me-2"><i class="fab fa-facebook-f"></i></a>
           <a href="#" class="text-decoration-none me-2"><i class="fab fa-twitter"></i></a>
@@ -103,7 +110,7 @@
       </div>
     </div>
     <div class="text-center p-3 mt-3">
-      © <%= Date.today.year %> Gato Catalog - All rights reserved
+      © <%= Date.today.year %> <%= t('.copyright', default: 'Gato Catalog - All rights reserved') %>
     </div>
   </div>
 </footer>

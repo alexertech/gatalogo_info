@@ -1,0 +1,45 @@
+es:
+  hello: "Hola mundo"
+  
+  shared:
+    navbar:
+      home: "Inicio"
+      cats: "Gatos"
+      login: "Iniciar sesión"
+      logout: "Cerrar sesión"
+      register: "Registrarse"
+      
+  home:
+    index:
+      title: "Gatalogo - Su catálogo de gatos"
+      welcome: "Bienvenido al Gatalogo"
+      description: "Explore nuestra colección de gatos"
+      
+  gatos:
+    index:
+      title: "Gatos"
+      new_cat: "Nuevo Gato"
+    show:
+      characteristics: "Características:"
+      back: "Volver"
+      edit: "Editar"
+    new:
+      title: "Nuevo Gato"
+      back: "Volver"
+    edit:
+      title: "Editar Gato"
+      back: "Volver"
+    form:
+      submit: "Guardar"
+      
+  activerecord:
+    models:
+      gato: "Gato"
+      tag: "Etiqueta"
+    attributes:
+      gato:
+        name: "Nombre"
+        age: "Edad"
+        breed: "Raza"
+        description: "Descripción"
+        tags: "Etiquetas"

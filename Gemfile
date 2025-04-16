@@ -73,5 +73,6 @@ group :test do
 end
 
 gem "devise", "~> 4.9"
+gem "rails-i18n", "~> 7.0.0"
 
 gem "cssbundling-rails", "~> 1.4"
