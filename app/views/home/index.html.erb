@@ -4,7 +4,7 @@
     <p class="lead">The definitive Wikipedia for gato breeds from around the world</p>
     <%= link_to "Explore Gatos", gatos_path, class: "btn btn-primary btn-lg px-4" %>
     <% if !user_signed_in? %>
-      <%= link_to "Join Our Community", new_user_registration_path, class: "btn btn-outline-secondary btn-lg px-4 ms-2" %>
+      <%# link_to "Join Our Community", new_user_registration_path, class: "btn btn-outline-secondary btn-lg px-4 ms-2" %>
     <% end %>
   </div>
 </section>
@@ -74,7 +74,7 @@
         <li>Help create the most comprehensive gato breed resource on the web</li>
       </ul>
       <% if !user_signed_in? %>
-        <%= link_to "Sign Up Now", new_user_registration_path, class: "btn btn-primary" %>
+        <% # link_to "Sign Up Now", new_user_registration_path, class: "btn btn-primary" %>
       <% else %>
         <%= link_to "Add a New Gato", new_gato_path, class: "btn btn-primary" %>
       <% end %>
