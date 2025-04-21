@@ -20,14 +20,19 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 - **Autenticación**: Devise
 - **Almacenamiento de Imágenes**: Active Storage
 - **Empaquetado de Assets**: CSS Bundling Rails
-- **Analíticas**: Sistema integrado de seguimiento de eventos
+- **JavaScript Framework**: Stimulus
+- **Analíticas**: Sistema integrado de seguimiento de eventos (AnalyticsTracker middleware)
 - **Visualización de Datos**: Chart.js
+- **Testing**: RSpec, Factory Bot, Shoulda Matchers, Capybara
+- **Sistema de Roles**: Administradores y usuarios regulares
+- **Internacionalización**: I18n (soporte para español e inglés)
 
 ### Requisitos del Sistema
 - Ruby 3.x
 - Node.js
 - PostgreSQL
 - Yarn
+- Bundler
 
 ## 4. Estructura de la Base de Datos
 
@@ -37,6 +42,13 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 - **description**: text (descripción detallada)
 - **image**: Active Storage attachment
 - **user_id**: references (relación con el usuario que lo creó)
+- **Relaciones**: 
+  - belongs_to :user
+  - has_and_belongs_to_many :tags
+
+### Modelo: Tag
+- **name**: string (nombre de la etiqueta)
+- **Relaciones**: has_and_belongs_to_many :gatos
 
 ### Modelo: User (proporcionado por Devise)
 - **email**: string
@@ -45,7 +57,7 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 - **reset_password_sent_at**: datetime
 - **remember_created_at**: datetime
 - **role**: string (default: "user")
-- **Relaciones**: has_many :gatos
+- **Relaciones**: has_many :gatos, dependent: :destroy
 
 ### Modelo: Event (para analíticas)
 - **event_type**: string (tipo de evento: page_view, gato_view, etc.)
@@ -57,6 +69,7 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 - **user_agent**: string (navegador/dispositivo del visitante)
 - **created_at**: datetime (momento del evento)
 - **updated_at**: datetime
+- **Tipos de eventos**: page_view, gato_view, search, registration, login, gato_create, gato_update, gato_delete
 
 ## 5. Funcionalidades Principales
 
@@ -80,6 +93,8 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 - Visualización de analíticas y métricas
 - Gestión de usuarios y contenido
 - Monitoreo de actividad del sitio
+- Gestión de etiquetas
+- Dashboard administrativo
 - Configuración de opciones de monetización
 
 ## 6. Diseño de Interfaz
@@ -124,9 +139,11 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 1. Usuario inicia sesión
 2. Navega a "Añadir Nuevo Gato"
 3. Completa formulario con nombre, raza, descripción
-4. Sube imagen de la raza
-5. Envía el formulario
-6. Recibe confirmación de creación exitosa
+4. Selecciona etiquetas relevantes o crea nuevas
+5. Sube imagen de la raza
+6. Envía el formulario
+7. Recibe confirmación de creación exitosa
+8. El sistema registra el evento "gato_create" en las analíticas
 
 ### Exploración del Catálogo
 1. Usuario navega a "Gatos" en el menú
@@ -157,10 +174,13 @@ La aplicación incluye funcionalidad de modo oscuro que:
 - Términos de búsqueda populares
 
 ### Implementación Técnica
-- Middleware personalizado para seguimiento de vistas de página
-- Modelo Event para almacenar todos los eventos del sistema
+- Middleware personalizado (AnalyticsTracker) para seguimiento de vistas de página
+- Modelo Event para almacenar todos los eventos del sistema 
+- Trackable polymorphic para asociar eventos con diferentes modelos
+- Dashboard administrativo para visualización de métricas
 - Sin dependencias de servicios de analíticas de terceros
 - Datos almacenados en la base de datos propia de la aplicación
+- Índices optimizados para consultas rápidas de analíticas
 
 ## 10. Accesibilidad y Responsividad
 
@@ -172,25 +192,35 @@ La aplicación incluye funcionalidad de modo oscuro que:
 
 ## 11. Plan de Implementación
 
-### Fase 1: Configuración Inicial
+### Fase 1: Configuración Inicial (Completada)
 - Configurar Rails con PostgreSQL
 - Implementar autenticación con Devise
 - Crear modelos básicos y migraciones
 
-### Fase 2: Funcionalidad Principal
+### Fase 2: Funcionalidad Principal (Completada)
 - Implementar CRUD para Gatos
 - Configurar Active Storage para imágenes
 - Desarrollar la funcionalidad de usuario
+- Implementar sistema de etiquetas
+- Crear sistema de roles (Admin/Usuario)
 
-### Fase 3: Diseño de Interfaz
+### Fase 3: Diseño de Interfaz (Completada)
 - Implementar diseño responsivo con Bootstrap
 - Crear componentes de interfaz
 - Desarrollar modo oscuro
+- Implementar internacionalización (ES/EN)
 
-### Fase 4: Refinamiento
+### Fase 4: Analytics y Panel Administrativo (Completada)
+- Implementar middleware para seguimiento de eventos
+- Crear modelo Event para almacenar analíticas
+- Desarrollar dashboard administrativo
+- Implementar visualización de datos con Chart.js
+
+### Fase 5: Refinamiento (En Progreso)
 - Optimizar rendimiento
 - Mejorar UX/UI basado en feedback
 - Pruebas y correcciones
+- Implementar funcionalidades avanzadas de búsqueda
 
 ## 12. Estrategias de Monetización
 
@@ -230,10 +260,14 @@ La aplicación incluye funcionalidad de modo oscuro que:
 
 ## 13. Consideraciones Futuras
 
-- Implementación de sistema de búsqueda y filtrado
+- Implementación de sistema de búsqueda avanzada y filtrado por etiquetas
 - Categorización avanzada de razas de gatos
 - Sistema de votación o "me gusta" para entradas populares
 - Sección de comentarios para discusión
-- Internacionalización para múltiples idiomas
+- Expansión de internacionalización para más idiomas
+- API para integración con aplicaciones de terceros
 - Comunidad de expertos verificados en razas específicas
+- Implementación del sistema de monetización
 - Aplicación móvil nativa
+- Exportación de informes de análisis para administradores
+- Integración con redes sociales
