@@ -1,0 +1,21 @@
+<h1 class="h2 mb-4">Detalles del Usuario</h1>
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex justify-content-between align-items-center">
+    <h6 class="m-0 font-weight-bold text-primary">Usuario: <%= @user.email %></h6>
+    <div>
+      <%= link_to 'Volver', admin_users_path, class: 'btn btn-sm btn-secondary mr-2' %>
+      <%= link_to 'Editar', edit_admin_user_path(@user), class: 'btn btn-sm btn-primary' %>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Email:</strong> <%= @user.email %></p>
+        <p><strong>Rol:</strong> <span class="badge <%= @user.role == 'admin' ? 'bg-danger' : 'bg-secondary' %>"><%= @user.role || 'usuario' %></span></p>
+        <p><strong>Fecha de registro:</strong> <%= @user.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+        <p><strong>Última actualización:</strong> <%= @user.updated_at.strftime("%d/%m/%Y %H:%M") %></p>
+      </div>
+    </div>
+  </div>
+</div>

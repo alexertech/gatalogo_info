@@ -1,0 +1,44 @@
+<h1 class="h2 mb-4">Administración de Gatos</h1>
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex justify-content-between align-items-center">
+    <h6 class="m-0 font-weight-bold text-primary">Lista de Gatos</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="gatosTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Raza</th>
+            <th>Propietario</th>
+            <th>Etiquetas</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @gatos.each do |gato| %>
+            <tr>
+              <td><%= gato.name %></td>
+              <td><%= gato.age %></td>
+              <td><%= gato.breed %></td>
+              <td><%= gato.user&.email || 'Sin propietario' %></td>
+              <td>
+                <% gato.tags.each do |tag| %>
+                  <span class="badge bg-info"><%= tag.name %></span>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to 'Ver', admin_gato_path(gato), class: 'btn btn-sm btn-info' %>
+                <%= button_to 'Eliminar', admin_gato_path(gato), method: :delete, 
+                    data: { turbo_confirm: '¿Estás seguro de eliminar este gato?' }, 
+                    class: 'btn btn-sm btn-danger', form: { class: 'd-inline' } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
