@@ -90,6 +90,7 @@ GEM
     brakeman (7.0.0)
       racc
     builder (3.3.0)
+    byebug (12.0.0)
     capistrano (3.19.2)
       airbrussh (>= 1.0.0)
       i18n
@@ -400,6 +401,7 @@ DEPENDENCIES
   bcrypt_pbkdf (~> 1.1, >= 1.1.1)
   bootsnap
   brakeman
+  byebug
   capistrano (~> 3.19, >= 3.19.1)
   capistrano-bundler (~> 2.1)
   capistrano-nvm

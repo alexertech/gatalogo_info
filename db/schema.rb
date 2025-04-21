@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_09_165143) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_21_174312) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "vector"
@@ -41,6 +41,25 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165143) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "event_type"
+    t.bigint "user_id"
+    t.string "trackable_type"
+    t.bigint "trackable_id"
+    t.jsonb "metadata", default: {}
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_events_on_created_at"
+    t.index ["event_type", "created_at"], name: "index_events_on_event_type_and_created_at"
+    t.index ["event_type"], name: "index_events_on_event_type"
+    t.index ["trackable_type", "trackable_id", "created_at"], name: "index_events_on_trackable_type_and_trackable_id_and_created_at"
+    t.index ["trackable_type", "trackable_id"], name: "index_events_on_trackable"
+    t.index ["user_id", "created_at"], name: "index_events_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "gatos", force: :cascade do |t|
@@ -75,11 +94,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_09_165143) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "user"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role"], name: "index_users_on_role"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "events", "users"
   add_foreign_key "gatos", "users"
 end

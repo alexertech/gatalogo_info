@@ -1,0 +1,62 @@
+<%# app/views/admin/analytics/page_views.html.erb %>
+<div class="container-fluid mt-4">
+  <h1>Análisis de Vistas de Página</h1>
+  
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Vistas de página (últimos 30 días)</h5>
+          <canvas id="pageViewsChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Páginas más populares</h5>
+          <ul class="list-group">
+            <% @popular_pages.each do |path, count| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= path %>
+                <span class="badge bg-primary rounded-pill"><%= count %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const ctx = document.getElementById('pageViewsChart').getContext('2d');
+  
+  const labels = <%= raw @daily_views.keys.map { |date| date.to_s }.to_json %>;
+  const data = <%= raw @daily_views.values.to_json %>;
+  
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Vistas de página',
+        data: data,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+        tension: 0.1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+});
+</script>

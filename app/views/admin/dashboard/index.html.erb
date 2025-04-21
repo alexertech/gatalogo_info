@@ -1,0 +1,87 @@
+<%# app/views/admin/dashboard/index.html.erb %>
+<div class="container-fluid mt-4">
+  <h1 class="mb-4">Dashboard de Administración</h1>
+  
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <h5 class="card-title">Usuarios totales</h5>
+          <h2 class="display-4"><%= @stats[:total_users] %></h2>
+          <p>+<%= @stats[:new_users_today] %> hoy</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">Gatos registrados</h5>
+          <h2 class="display-4"><%= @stats[:total_gatos] %></h2>
+          <p>+<%= @stats[:new_gatos_today] %> hoy</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <h5 class="card-title">Vistas de página</h5>
+          <h2 class="display-4"><%= @stats[:page_views_today] %></h2>
+          <p>Hoy</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="card bg-warning text-dark">
+        <div class="card-body">
+          <h5 class="card-title">Tasa de conversión</h5>
+          <h2 class="display-4">
+            <%= (@stats[:new_users_today].to_f / @stats[:page_views_today] * 100).round(1) rescue 0 %>%
+          </h2>
+          <p>Visitantes a usuarios</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Actividad reciente</h5>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Evento</th>
+                  <th>Usuario</th>
+                  <th>Cuando</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% Event.order(created_at: :desc).limit(10).each do |event| %>
+                  <tr>
+                    <td><%= event.event_type.humanize %></td>
+                    <td><%= event.user ? event.user.email : "Visitante" %></td>
+                    <td><%= time_ago_in_words(event.created_at) %> ago</td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Razas más populares</h5>
+          <canvas id="popularBreedsChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

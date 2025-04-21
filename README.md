@@ -20,6 +20,8 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 - **Autenticación**: Devise
 - **Almacenamiento de Imágenes**: Active Storage
 - **Empaquetado de Assets**: CSS Bundling Rails
+- **Analíticas**: Sistema integrado de seguimiento de eventos
+- **Visualización de Datos**: Chart.js
 
 ### Requisitos del Sistema
 - Ruby 3.x
@@ -42,7 +44,19 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 - **reset_password_token**: string
 - **reset_password_sent_at**: datetime
 - **remember_created_at**: datetime
+- **role**: string (default: "user")
 - **Relaciones**: has_many :gatos
+
+### Modelo: Event (para analíticas)
+- **event_type**: string (tipo de evento: page_view, gato_view, etc.)
+- **user_id**: references (opcional, relación con el usuario)
+- **trackable_id**: integer (ID del objeto relacionado)
+- **trackable_type**: string (tipo del objeto relacionado)
+- **metadata**: jsonb (datos adicionales del evento)
+- **ip_address**: string (dirección IP del visitante)
+- **user_agent**: string (navegador/dispositivo del visitante)
+- **created_at**: datetime (momento del evento)
+- **updated_at**: datetime
 
 ## 5. Funcionalidades Principales
 
@@ -60,22 +74,30 @@ Gatalogo es una aplicación web tipo "Wikipedia para gatos" desarrollada con Rub
 - Eliminar sus propias entradas
 - Gestionar su perfil de usuario
 
+### Para Administradores
+- Todas las funcionalidades de usuarios registrados
+- Acceso al panel de administración
+- Visualización de analíticas y métricas
+- Gestión de usuarios y contenido
+- Monitoreo de actividad del sitio
+- Configuración de opciones de monetización
+
 ## 6. Diseño de Interfaz
 
 ### Esquema de Color
 - **Modo Claro**:
-    - Fondo principal: #f9f9f9
-    - Tarjetas y contenedores: #fff
-    - Acentos: Colores de Bootstrap (primario, secundario)
-    - Texto: #333
-    - Sombras: rgba(0, 0, 0, 0.1)
+  - Fondo principal: #f9f9f9
+  - Tarjetas y contenedores: #fff
+  - Acentos: Colores de Bootstrap (primario, secundario)
+  - Texto: #333
+  - Sombras: rgba(0, 0, 0, 0.1)
 
 - **Modo Oscuro**:
-    - Fondo principal: #121212
-    - Tarjetas y contenedores: #2b3035
-    - Acentos: Versiones ajustadas de los colores de Bootstrap
-    - Texto: #e1e1e1
-    - Sombras: rgba(0, 0, 0, 0.25)
+  - Fondo principal: #121212
+  - Tarjetas y contenedores: #2b3035
+  - Acentos: Versiones ajustadas de los colores de Bootstrap
+  - Texto: #e1e1e1
+  - Sombras: rgba(0, 0, 0, 0.25)
 
 ### Componentes Principales
 - **Barra de Navegación**: Contiene logo, enlaces de navegación, opciones de usuario y toggle de modo oscuro
@@ -120,7 +142,27 @@ La aplicación incluye funcionalidad de modo oscuro que:
 - Guarda la preferencia del usuario en localStorage
 - Aplica estilos adecuados a todos los componentes
 
-## 9. Accesibilidad y Responsividad
+## 9. Sistema de Analíticas Integrado
+
+### Panel de Administración
+- Dashboard principal con métricas clave
+- Gráficos y estadísticas generados con Chart.js
+- Acceso restringido a usuarios con rol de administrador
+
+### Métricas Rastreadas
+- Vistas de página (totales, por ruta, tendencias)
+- Perfiles de gatos más populares
+- Actividad de usuarios registrados
+- Tasas de conversión (visitantes a registros)
+- Términos de búsqueda populares
+
+### Implementación Técnica
+- Middleware personalizado para seguimiento de vistas de página
+- Modelo Event para almacenar todos los eventos del sistema
+- Sin dependencias de servicios de analíticas de terceros
+- Datos almacenados en la base de datos propia de la aplicación
+
+## 10. Accesibilidad y Responsividad
 
 - Diseño completamente responsivo para móviles, tablets y escritorio
 - Contraste adecuado de colores para legibilidad
@@ -128,7 +170,7 @@ La aplicación incluye funcionalidad de modo oscuro que:
 - Marcado semántico para lectores de pantalla
 - Navegación accesible por teclado
 
-## 10. Plan de Implementación
+## 11. Plan de Implementación
 
 ### Fase 1: Configuración Inicial
 - Configurar Rails con PostgreSQL
@@ -150,10 +192,48 @@ La aplicación incluye funcionalidad de modo oscuro que:
 - Mejorar UX/UI basado en feedback
 - Pruebas y correcciones
 
-## 11. Consideraciones Futuras
+## 12. Estrategias de Monetización
+
+### Estrategias a Corto Plazo
+- **Afiliación**: Enlaces de afiliados a productos recomendados para cada raza
+  - Programas como Amazon, Chewy, tiendas especializadas de mascotas
+  - Recomendaciones personalizadas según la raza de gato
+  - Implementación técnica sencilla con retorno rápido
+
+### Estrategias a Medio Plazo
+- **Contenido Patrocinado**: Artículos y perfiles de razas patrocinados
+  - Guías de cuidado específicas para razas patrocinadas por marcas
+  - Secciones "Recomendado por expertos" con contenido de marcas
+  - Transparencia en etiquetado de contenido patrocinado
+
+- **Publicidad Contextual**: Anuncios relevantes sobre productos para gatos
+  - Espacios designados para banners no intrusivos
+  - Anuncios de tiendas de mascotas y servicios veterinarios locales
+  - Sistema de gestión de anuncios propio (sin depender de servicios externos)
+
+### Estrategias a Largo Plazo
+- **Marketplace Integrado**: Plataforma para conectar criadores éticos con adoptantes
+  - Sistema de perfiles verificados para criadores
+  - Comisiones por transacciones completadas
+  - Integración con pasarelas de pago (Stripe, PayPal)
+
+- **Modelo Freemium**: Funciones avanzadas para usuarios premium
+  - Contenido exclusivo sobre cuidados especializados
+  - Herramientas de compatibilidad entre razas
+  - Sin publicidad para miembros premium
+
+### Implementación y Medición
+- Seguimiento de métricas de conversión en el panel de administración
+- A/B testing para optimizar posicionamiento y presentación
+- Análisis de canales de monetización más efectivos
+- Equilibrio entre ingresos y experiencia de usuario
+
+## 13. Consideraciones Futuras
 
 - Implementación de sistema de búsqueda y filtrado
 - Categorización avanzada de razas de gatos
 - Sistema de votación o "me gusta" para entradas populares
 - Sección de comentarios para discusión
 - Internacionalización para múltiples idiomas
+- Comunidad de expertos verificados en razas específicas
+- Aplicación móvil nativa

@@ -1,8 +1,14 @@
 class User < ApplicationRecord
-  # Include default devise modules
-  # Temporarily disabled :registerable to prevent new sign-ups
+  ROLES = %w[user admin].freeze
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   has_many :gatos, dependent: :destroy
+
+  validates :role, inclusion: { in: ROLES }
+
+  def admin?
+    role == "admin"
+  end
 end

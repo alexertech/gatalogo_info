@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
+  <head>
+    <title>Admin Dashboard - Gatalogo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar de navegación -->
+        <div class="col-md-2 d-md-block bg-light sidebar collapse" style="min-height: 100vh;">
+          <div class="position-sticky pt-3">
+            <div class="my-4 text-center">
+              <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">
+                <span><i class="fas fa-cat me-2"></i>Gatalogo</span>
+              </h5>
+              <small class="text-muted">Panel de Administración</small>
+            </div>
+            
+            <hr>
+            
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <%= link_to admin_path, class: "nav-link #{'active' if controller_name == 'dashboard'}" do %>
+                  <i class="fas fa-tachometer-alt me-2"></i>
+                  Dashboard
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to admin_users_path, class: "nav-link #{'active' if controller_name == 'users'}" do %>
+                  <i class="fas fa-users me-2"></i>
+                  Usuarios
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to admin_gatos_path, class: "nav-link #{'active' if controller_name == 'gatos'}" do %>
+                  <i class="fas fa-paw me-2"></i>
+                  Gatos
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to admin_analytics_path, class: "nav-link #{'active' if controller_name == 'analytics'}" do %>
+                  <i class="fas fa-chart-bar me-2"></i>
+                  Analíticas
+                <% end %>
+              </li>
+            </ul>
+            
+            <hr>
+            
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <%= link_to root_path, class: "nav-link" do %>
+                  <i class="fas fa-arrow-left me-2"></i>
+                  Volver al sitio
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "nav-link text-danger" do %>
+                  <i class="fas fa-sign-out-alt me-2"></i>
+                  Cerrar sesión
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <main class="col-md-10 ms-sm-auto px-md-4">
+          <% if notice %>
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+              <%= notice %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% end %>
+          
+          <% if alert %>
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+              <%= alert %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% end %>
+          
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+
+    <!-- Scripts adicionales para el panel de administración -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Toggle para el sidebar en dispositivos móviles
+        const toggleSidebar = document.getElementById('sidebarToggle');
+        if (toggleSidebar) {
+          toggleSidebar.addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('show');
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
