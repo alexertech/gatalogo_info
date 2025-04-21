@@ -1,7 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
-require_relative "../lib/middleware/analytics_tracker"
+require_relative "../app/middleware/analytics_tracker"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -30,7 +30,6 @@ module Gatalogo
     config.i18n.default_locale = :en
 
     # Mis Analiticas
-    # config.middleware.use AnalyticsTracker
-    config.middleware.insert_before 0, AnalyticsTracker
+    config.middleware.use AnalyticsTracker
   end
 end
