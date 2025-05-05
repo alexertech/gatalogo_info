@@ -42,7 +42,7 @@ gem "capistrano-rails-console", "~> 2.3"
 gem "capistrano-rbenv", "~> 2.2"
 gem "capistrano-nvm", require: false
 gem "capistrano-nvm-install", require: false
-gem "ed25519", "~> 1.3"
+gem "ed25519", "~> 1.4"
 gem "net-ssh", "~> 7.2", ">= 7.2.3"
 
 group :development, :test do
